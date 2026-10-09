@@ -1,0 +1,71 @@
+@*
+    View = "V" v MVC. Razor (.cshtml) = HTML + C# kód začínajúci znakom @.
+    @model určuje typ dát, ktoré view dostane z controllera - potom k nim pristupujeme cez Model.
+*@
+@model StudentModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<a asp-action="Read">List all students</a>
+
+<h2>Create</h2>
+
+@*
+    <form> tag helper: asp-action="Create" + method="post" -> formulár sa odošle na POST /Student/Create.
+    Navyše automaticky vloží skryté pole __RequestVerificationToken (ochrana CSRF,
+    kontroluje ho [ValidateAntiForgeryToken] v controlleri).
+*@
+<form asp-action="Create" method="post" style="max-width: 400px">
+    @* Chyby, ktoré nepatria ku konkrétnemu políčku (ModelOnly). Chyby políčok sú pri nich nižšie. *@
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    @*
+        asp-for="Id" prepojí políčko s vlastnosťou modelu:
+          - vygeneruje id="Id" name="Id" (podľa name to model binding zapíše späť do StudentModel.Id),
+          - pre int nastaví type="number",
+          - pridá data-val-* atribúty z validačných pravidiel v modeli (pre validáciu v prehliadači),
+          - ak sa formulár vráti s chybou, políčko zostane vyplnené.
+        asp-validation-for zobrazí chybovú hlášku k tomuto políčku.
+    *@
+    <div class="mb-3">
+        <label asp-for="Id" class="form-label">Your ID:</label>
+        <input asp-for="Id" class="form-control" min="1" />
+        <span asp-validation-for="Id" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Your Name:</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Gender" class="form-label">Your Gender:</label>
+        @* Prvá možnosť má prázdnu hodnotu - ak ju nikto nezmení, [Required] v modeli nahlási chybu *@
+        <select asp-for="Gender" class="form-select">
+            <option value="">-- select --</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+        </select>
+        <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="City" class="form-label">Your City:</label>
+        <input asp-for="City" class="form-control" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@*
+    Validácia v prehliadači (jQuery Validation) - chyby sa ukážu ešte pred odoslaním.
+    Skripty sa vložia do sekcie "Scripts" v _Layout.cshtml.
+    Je to len pohodlie pre používateľa - skutočná kontrola je vždy na serveri (ModelState.IsValid).
+*@
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

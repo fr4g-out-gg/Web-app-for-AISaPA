@@ -1,0 +1,16 @@
+@* Detail jedného študenta - controller ho našiel v repository podľa ID z URL *@
+@model StudentModel
+
+@{
+    @* Titulok záložky v prehliadači bude meno študenta *@
+    ViewData["Title"] = Model.Name;
+}
+
+<a asp-action="Read">List all students</a>
+
+<h2>@Model.Name</h2>
+
+<p>ID: @Model.Id</p>
+<p>Name: @Model.Name</p>
+<p>Gender: @Model.Gender</p>
+<p>City: @Model.City</p>

@@ -1,0 +1,46 @@
+@* Controller posiela List<StudentModel> - zoznam všetkých študentov (repository.GetAll()) *@
+@model List<StudentModel>
+
+@{
+    ViewData["Title"] = "Read";
+}
+
+<a asp-action="Create">Create new Student</a>
+
+<h2>Here is the list of students</h2>
+
+@* V Razore môžeme priamo písať C# podmienky a cykly - stačí začať znakom @ *@
+@if (Model.Count == 0)
+{
+    <p>No students yet.</p>
+}
+else
+{
+    <table class="table table-striped" style="max-width: 700px">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+            @* Pre každého študenta jeden riadok tabuľky *@
+            @foreach (StudentModel student in Model)
+            {
+                <tr>
+                    @*
+                        @student.Name sa vypíše HTML-enkódovane - ak niekto zadá meno <script>...</script>,
+                        zobrazí sa ako text a nespustí sa (ochrana pred XSS).
+                    *@
+                    <td>@student.Id</td>
+                    @* asp-route-id doplní ID do URL: /Student/Student_info/5 *@
+                    <td><a asp-action="Student_info" asp-route-id="@student.Id">@student.Name</a></td>
+                    <td>@student.Gender</td>
+                    <td>@student.City</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

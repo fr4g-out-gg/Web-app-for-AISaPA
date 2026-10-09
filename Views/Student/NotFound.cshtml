@@ -1,0 +1,15 @@
+@*
+    Zobrazí sa, keď študent s daným ID neexistuje (controller nastaví HTTP 404).
+    Model nemusí byť trieda - tu je to len číslo: ID, ktoré sa nenašlo.
+*@
+@model int
+
+@{
+    ViewData["Title"] = "Not found";
+}
+
+<a asp-action="Read">List all students</a>
+
+<h2>Student not found</h2>
+
+<p>There is no student with ID @Model.</p>

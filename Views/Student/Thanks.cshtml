@@ -1,0 +1,16 @@
+@*
+    Sem sa dostaneme presmerovaním (RedirectToAction) po úspešnom odoslaní formulára.
+    Je to obyčajná GET stránka, takže F5 len znova načíta poďakovanie - študenta nepridá druhýkrát.
+*@
+@model StudentModel
+
+@{
+    ViewData["Title"] = "Thanks";
+}
+<a asp-action="Read">List all students</a>
+
+<h2>Thanks, @Model.Name</h2>
+
+<p>You were added to the list with ID @Model.Id.</p>
+
+<a asp-action="Create" class="btn btn-primary">Add another student</a>
